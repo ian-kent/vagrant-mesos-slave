@@ -1,0 +1,27 @@
+{
+  "sources": {
+    "apt": {
+      "locked_version": "2.3.8"
+    },
+    "mesos": {
+      "locked_version": "0.1.0",
+      "git": "git://github.com/everpeace/cookbook-mesos.git",
+      "ref": "ceb6956fba0cffd303da7f905526344265ec26dd"
+    },
+    "java": {
+      "locked_version": "1.19.2"
+    },
+    "python": {
+      "locked_version": "1.4.6"
+    },
+    "build-essential": {
+      "locked_version": "1.4.2"
+    },
+    "yum-epel": {
+      "locked_version": "0.3.4"
+    },
+    "yum": {
+      "locked_version": "3.1.2"
+    }
+  }
+}
