@@ -6,10 +6,10 @@
 
 # https://github.com/everpeace/cookbook-mesos/blob/master/example/mesosphere/Vagrantfile
 
-# Set VM_HOSTNAME, VM_MEM, ZK_HOSTS and MESOS_MASTER
+# Set VM_HOSTNAME, VM_MEM, ZK_HOSTS and SERF_JOIN
 # Required even to run ssh/destroy
 # E.g.
-# VM_HOSTNAME="slave1x" VM_MEM="1024" ZK_HOSTS="zk://zk1:2181, zk://zk2:2181" MESOS_MASTER="master1" vagrant up
+# VM_HOSTNAME="slave1" VM_MEM="1024" ZK_HOSTS="zk://zk1:2181/mesos, zk://zk2:2181/mesos" SERF_JOIN="zk1" vagrant up
 
 Vagrant.configure("2") do |config|
 
@@ -58,8 +58,9 @@ $script = <<SCRIPT
   wget https://raw.github.com/hashicorp/serf/c15b5f15dec3d735dae1a6d1f3455d4d7b5685e7/ops-misc/upstart.conf
   mv upstart.conf /etc/init/serf-agent.conf
   mkdir /etc/serf
-  echo "{ \"start_join\": [\"$1\"] }" | tee /etc/serf/config.json
+  ip=`ip addr list eth1 | grep "inet " | cut -d ' ' -f6 | cut -d/ -f1`
+  echo { \\"start_join\\": [\\"$1\\"], \\"protocol\\": 3, \\"tags\\": { \\"role\\": \\"slave\\" }, \\"advertise\\": \\"$ip\\" } | tee /etc/serf/config.json
   exec start serf-agent
 SCRIPT
-  config.vm.provision "shell", inline: $script, args: "#{ENV['MESOS_MASTER']}"
+  config.vm.provision "shell", inline: $script, args: "#{ENV['SERF_JOIN']}"
 end

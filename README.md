@@ -1,7 +1,7 @@
-Ubuntu Mesos Slave with Serf
+Apache Mesos Slave with Serf
 ============================
 
-Vagrant build for Ubuntu with Serf
+Vagrant build for Ubuntu with Apache Mesos and Serf
 
 Requires Vagrant v2 - http://www.vagrantup.com/
 
@@ -20,8 +20,8 @@ The following environment variables are required for every vagrant command:
   - VM_HOSTNAME - the hostname to configure the VM with
   - VM_MEM - VM ram (in mb)
   - ZK_HOSTS - a list of Apache ZooKeeper urls
-  - MESOS_MASTER - hostname or IP of a Mesos master, used as Serf first neighbour
+  - SERF_NODE - a Serf node to connect to
 
 Example:
 
-    VM_HOSTNAME="slave1x" VM_MEM="1024" ZK_HOSTS="zk://zk1:2181, zk://zk2:2181" MESOS_MASTER="master1" vagrant up
+    VM_HOSTNAME="slave1" VM_MEM="1024" ZK_HOSTS="zk://zk1:2181/mesos, zk://zk2:2181/mesos" SERF_NODE="zk1" vagrant up
