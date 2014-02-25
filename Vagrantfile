@@ -51,6 +51,13 @@ Vagrant.configure("2") do |config|
   end
 
 $script = <<SCRIPT
+  ip=`ip addr list eth1 | grep "inet " | cut -d ' ' -f6 | cut -d/ -f1`
+  echo $ip | tee /etc/mesos-slave/ip
+  exec start mesos-slave
+SCRIPT
+  config.vm.provision "shell", inline: $script
+
+$script = <<SCRIPT
   wget https://dl.bintray.com/mitchellh/serf/0.4.1_linux_amd64.zip
   unzip 0.4.1_linux_amd64.zip
   mv serf /usr/local/bin
